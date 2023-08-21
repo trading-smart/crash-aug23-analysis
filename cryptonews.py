@@ -82,7 +82,7 @@ def cryptonews(ticker, initial_dt, limit = 100):
 
         else:
             # Quits and saves data as json file
-            with open('cryptonews.json', 'w', encoding='utf-8') as f:
+            with open('data/cryptonews.json', 'w', encoding='utf-8') as f:
                 json.dump(x, f, ensure_ascii=False, indent=4)
             break
 
