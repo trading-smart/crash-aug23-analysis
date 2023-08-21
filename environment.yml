@@ -2,6 +2,7 @@ name: base
 channels:
   - conda-forge
   - defaults
+  - conda-forge/label/broken
 dependencies:
   - _anaconda_depends=2023.07
   - abseil-cpp=20211102.0
