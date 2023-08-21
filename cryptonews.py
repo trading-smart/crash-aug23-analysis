@@ -68,7 +68,7 @@ def cryptonews(ticker, initial_dt, limit = 100):
             
 
         try:
-            print(f"Loading {limit} top news at {data}...")
+            print(f"Loading {limit} top news at {initial_dt}...")
         except:
             break
         
