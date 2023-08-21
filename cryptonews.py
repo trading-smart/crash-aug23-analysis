@@ -18,17 +18,19 @@ session.mount('https://', adapter)
 load_dotenv()
 
 
-def cryptonews(ticker,dt):
+def cryptonews(ticker, initial_dt, limit = 100):
     """Retrieves all news related to the ticker in CSV format.
     You must have an environ variable containing the token.
 
     Args:
         ticker (str): crypto ticker
+        initial_dt (date): initial date (end date is today)
+        limit (int): top [limit] news per day, ranked by relevance
     """
 
     TOKEN = os.getenv('token')
     hj = datetime.now().date()
-    days =  hj - dt
+    days =  hj - initial_dt
     session = requests.Session()
     retry = Retry(connect=10, backoff_factor=0.5)
     adapter = HTTPAdapter(max_retries=retry)
@@ -36,11 +38,11 @@ def cryptonews(ticker,dt):
     session.mount('https://', adapter)
 
     while True:
-        data = dt.strftime('%m%d%Y')
+        data = initial_dt.strftime('%m%d%Y')
         
         url = \
             f"""
-            https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items=100&page=1&date={data}-{data}&token={TOKEN}
+            https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items={100}&page=1&date={data}-{data}&token={TOKEN}
             """
         
         api_return = session.get(url).text
@@ -66,17 +68,17 @@ def cryptonews(ticker,dt):
             
 
         try:
-            print(f"Loading 100 top news at {dt}...")
+            print(f"Loading {limit} top news at {data}...")
         except:
             break
         
-        if 'message' not in pydict and hj>=dt:        
+        if 'message' not in pydict and hj>=initial_dt:        
             try:
                 x['data'].extend(pydict['data'])
             except:
                 x = pydict
             
-            dt = dt + timedelta(days=1)
+            initial_dt = initial_dt + timedelta(days=1)
 
         else:
             # Quits and saves data as json file
@@ -88,4 +90,5 @@ def cryptonews(ticker,dt):
 
 
 if __name__ == '__main__':
-    cryptonews('BTC',date(2021,1,1))
+    # Fetching news from the beginning of August
+    cryptonews(ticker='BTC', initial_dt=date(2023,8,1), limit=1000)
