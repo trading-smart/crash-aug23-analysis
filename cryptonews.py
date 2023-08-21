@@ -42,7 +42,7 @@ def cryptonews(ticker, initial_dt, limit = 100):
         
         url = \
             f"""
-            https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items={100}&page=1&date={data}-{data}&token={TOKEN}
+            https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items={limit}&page=1&date={data}-{data}&token={TOKEN}
             """
         
         api_return = session.get(url).text
@@ -91,4 +91,4 @@ def cryptonews(ticker, initial_dt, limit = 100):
 
 if __name__ == '__main__':
     # Fetching news from the beginning of August
-    cryptonews(ticker='BTC', initial_dt=date(2023,8,1), limit=1000)
+    cryptonews(ticker='BTC', initial_dt=date(2023,8,1), limit=100)
