@@ -28,8 +28,8 @@ pip install -r config_files/requirements.txt
 ```bash
 # activate environment
 conda activate crash-aug23-analysis
-
-### Daily Data Analysis
+```
+### Daily Data Analysis
 
 ```bash
 # run notebooks
