@@ -42,7 +42,7 @@ def get_cryptonews(ticker, sd, ed):
     end_date = sd  # end date
     while True:  # date loop
 
-        data = curr_date.strftime('%m%d%Y')
+        data = curr_date.strftime('%d/%M/%Y')
         pg = 1
         while True:  # repeats until last page is reached
             print(f"Fetching page {pg} for {data}")
