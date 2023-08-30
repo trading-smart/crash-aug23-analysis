@@ -33,7 +33,14 @@ conda activate crash-aug23-analysis
 
 ```bash
 # run notebooks
-jupyter notebook notebooks/daily_data_analysis.ipynb
+jupyter notebook notebooks/analysis_daily_data.ipynb
+```
+
+### 15-min Data Analysis
+
+```bash
+# run notebooks
+jupyter notebook notebooks/analysis_15min_data.ipynb
 ```
 
 ## Binder viewer
