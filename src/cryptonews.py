@@ -38,7 +38,7 @@ def get_cryptonews(ticker, sd, ed):
     session.mount('https://', adapter)
     print(os.getcwd())
     curr_date = sd  # current date
-    end_date = sd  # end date
+    end_date = ed  # end date
     while True:  # date loop
 
         data = curr_date.strftime('%m%d%Y')
