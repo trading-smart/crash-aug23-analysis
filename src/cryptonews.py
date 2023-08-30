@@ -46,7 +46,7 @@ def get_cryptonews(ticker, sd, ed):
         data_ = curr_date.strftime('%d/%m/%Y')
         pg = 1
         while True:  # repeats until last page is reached
-            print(f"Fetching page {pg} for {data}")
+            print(f"Fetching page {pg} for {data_}")
             url = \
                 f"""
                 https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items=100&page={pg}&date={data}-{data}&token={TOKEN}
