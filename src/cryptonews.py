@@ -39,41 +39,41 @@ def get_cryptonews(ticker, sd, ed):
     print(os.getcwd())
     curr_date = sd  # current date
     end_date = ed  # end date
-    while True:  # date loop
+    while curr_date <= end_date:  # date loop
 
         data = curr_date.strftime('%m%d%Y')
         
         pg = 1
         while True:  # repeats until last page is reached
             data_ = curr_date.strftime('%d/%m/%Y')
-            print(f"Fetching page {pg} for {data_}")
+            # print(f"Fetching page {pg} for {data_}")
             url = \
                 f"""
                 https://cryptonews-api.com/api/v1?tickers={ticker}&sortby=rank&extra-fields=id,eventid,rankscore&items=100&page={pg}&date={data}-{data}&token={TOKEN}
                 """
-            print(url)
+            # print(url)
             api_return = session.get(url).text
             pydict = json.loads(api_return)
+            print(pydict)
+            last_pg = pydict['total_pages']
+            try:
+                # if x was already assembled
+                dict_data['data'].extend(pydict['data'])
+            except:
+                dict_data = pydict  # creating the data cumulative dict
 
-            # there is a message when the URL returned an error and data otherwise.
-            if 'message' not in pydict and 'error' not in pydict:
-                try:
-                    # if x was already assembled
-                    dict_data['data'].extend(pydict['data'])
-                except:
-                    dict_data = pydict  # creating the data cumulative dict
+            pg += 1  # moving on to the next page
+            # There is a 'message' key when the URL returns an error and 'data' otherwise.
+            # If there is an error or the last page was reached, we assume there are no more news for that day:
 
-                pg += 1  # moving on to the next page
-
-            # If there is an error we assume the amount of news in that day ended (= reached last page)
-            else:
+            if pg > last_pg:
                 # moving on to the next day!
                 curr_date = curr_date + timedelta(days=1)
                 break
-
-        if curr_date > end_date:
-            break
-
+        
+    # Creating data folder if it doesn't exist:
+    if not os.path.exists('../data'):
+        os.makedirs('../data')
     # Creating JSON file:
     with open(f"../data/raw_cryptonews_{ticker}_from_{sd.strftime('%Y%m%d')}_to_{ed.strftime('%Y%m%d')}.json", 'w') as f:
         json.dump(dict_data, f, ensure_ascii=False)
